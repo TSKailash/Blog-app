@@ -1,12 +1,9 @@
-import { OrbitSpace } from 'orbit-space'
+import React from 'react'
 
-const App = () => {
+const Test = () => {
   return (
-    <>
-      <OrbitSpace>
-        <div className="app">Your content goes here:</div>
-      </OrbitSpace>
-    </>
-  );
-};
-export default App;
+    <div>Test</div>
+  )
+}
+
+export default Test
