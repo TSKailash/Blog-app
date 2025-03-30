@@ -1,6 +1,14 @@
 import React from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleLogin=()=>{
+    navigate('/login')
+  }
+  const handleSignup = ()=>{
+    navigate('/signup')
+  }
   return (
     <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -12,12 +20,15 @@ const Navbar = () => {
             <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">Features</a>
             <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">About</a>
             <button 
-              className="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors duration-300"
+              className="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors duration-300 cursor-pointer" 
+              onClick={handleLogin}
             >
               Log in
             </button>
             <button 
-              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 shadow-lg hover:shadow-indigo-300/50 transition-all duration-300"
+              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 shadow-lg hover:shadow-indigo-300/50 transition-all duration-300 cursor-pointer"
+              onClick={handleSignup}
+
             >
               Sign up
             </button>

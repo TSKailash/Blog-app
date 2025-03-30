@@ -8,7 +8,7 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState('login');
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 to-indigo-100">
       {/* Navigation */}
       <Navbar />
       {/* Hero Section */}
