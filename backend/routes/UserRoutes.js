@@ -23,20 +23,21 @@ router.post('/login', async(req, res)=>{
         const {email, password}=req.body;
         const existingUser=await User.findOne({email})
         if(existingUser){
+            // console.log(password, existingUser.password)
             if(password===existingUser.password){
-                return res.status(200).send({message:"success"})
+                return res.status(200).send({message:"success", username:existingUser.username})
             }
             else{
-                return res.status(200).send({message:"wrong_p"})
+                return res.status(401).send({message:"Incorrect password"})
             }
         }
         else{
-            return res.status(200).send({message:"User not_found"})
+            return res.status(404).send({message:"User not_found"})
         }
     }
     catch(err){
-        console.log(err)
-        return res.status(401).send({message:err.message})
+        console.log(err);
+        return res.status(500).send({message:err.message})
     }
 })
 

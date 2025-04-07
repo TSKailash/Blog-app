@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Blog_main from '../assets/Images/blog-main.jpeg'
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState('login');
+  const navigate = useNavigate();
+  const {username}=useParams()
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 to-indigo-100">
       {/* Navigation */}
       <Navbar />
       {/* Hero Section */}
@@ -21,6 +24,8 @@ const Home = () => {
             </p>
             <div className="flex flex-wrap gap-4 mb-8">
               <button 
+                onClick={()=>{console.log(username)
+                  navigate(`/uploadblog/${username}`)}}
                 className="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:shadow-indigo-300/50 hover:bg-indigo-700 transform hover:-translate-y-1 transition-all duration-300"
               >
                 Get Started
