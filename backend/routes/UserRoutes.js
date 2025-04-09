@@ -1,6 +1,7 @@
 const express=require('express')
 const router=express.Router()
 const User=require('../models/UserModel')
+const Post= require('../models/PostModel')
 
 router.post('/signup', async(req, res)=>{
     try{
@@ -57,6 +58,19 @@ router.get("/api/getemail/:username",async(req,res)=>{
     }catch(err){
         res.status(500).json({error:err});
         console.log(err);
+    }
+})
+
+router.post("/api/getupvote/:postId",async(req,res)=>{
+    try{
+        const user = await Post.findOneAndUpdate({_id:req.params.postId},
+            {$inc:{upvote:1}}
+        );
+        res.status(200).json({message:"success"});
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).json({message:"Not updated"});
     }
 })
 

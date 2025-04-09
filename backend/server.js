@@ -38,7 +38,8 @@ const storage = multer.diskStorage({
         caption: req.body.caption,
         userName: req.body.userName,
         email:req.body.email,
-        time:now.toLocaleDateString()
+        time:now.toLocaleDateString(),
+        upvote:req.body.upvote
       });
       await newPost.save();
       res.json(newPost);
