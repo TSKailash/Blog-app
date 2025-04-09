@@ -9,7 +9,7 @@ const Profile = () => {
     fetch(`http://localhost:3000/api/getUser/${username}`)
       .then((res) => res.json())
       .then((data) => {
-        setResult(data.data); // assumes backend sends { message, data: userObj }
+        setResult(data.data);
       })
       .catch((err) => {
         console.error(err);
