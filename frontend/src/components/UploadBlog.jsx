@@ -67,7 +67,7 @@ const UploadBlog = () => {
     uploadData.append("caption", formdata.caption);
     uploadData.append("userName", formdata.username);
     uploadData.append("email", email);
-    uploadData.append("upvote",0);
+    uploadData.append("upvote", 0);
 
     try {
       const response = await fetch("http://localhost:3000/api/upload", {

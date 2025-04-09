@@ -40,14 +40,14 @@ const BlogList = () => {
     author: post.userName || "User Nlafkame",
     username: post.email || post.author?.toLowerCase().replace(/\s/g, '') || "usernkosame",
     verified: Math.random() > 0.7,
-    likes: post.upvote ?? 100,
-    comments: Math.floor(Math.random() * 100),
-    shares: Math.floor(Math.random() * 200),
-    views: Math.floor(Math.random() * 10000),
+    likes: post.upvote ?? 200,
+    comments: 100,
+    shares: 1000,
+    views: 2000,
     time: post.time ?post.time: "2h"
   }));
 
-  const handlelikeclick = async (postId) => {
+  const handleUpVote = async (postId) => {
     console.log(`${postId}`);
     const res = await fetch(`http://localhost:3000/api/getupvote/${postId}`,{
       method:"POST",
@@ -221,7 +221,7 @@ const BlogList = () => {
                         <span>{post.shares}</span>
                       </button>
                       <button className="flex items-center space-x-1 text-blue-500 hover:text-pink-500 group transition-all duration-200"
-                      onClick={()=>handlelikeclick(post._id)}>
+                      onClick={()=>handleUpVote(post._id)}>
                         <div className="p-2 rounded-full group-hover:bg-blue-100 transition-all duration-200">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
