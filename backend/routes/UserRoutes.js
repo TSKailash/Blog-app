@@ -2,20 +2,42 @@ const express=require('express')
 const router=express.Router()
 const User=require('../models/UserModel')
 const Post=require('../models/PostModel')
+const multer = require('multer')
+const path = require('path')
 
-router.post('/signup', async(req, res)=>{
-    try{
-        const {username, email, password}=req.body;
-        const existingUser=await User.findOne({email})
-        if(existingUser){
-            return res.status(400).send({message:"User already exists"})
+const profileStorage = multer.diskStorage({
+    destination: "./uploads/profiles/",
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    },
+})
+const uploadProfile = multer({ storage: profileStorage })
+
+
+
+router.post('/signup', uploadProfile.single('image'), async(req, res) => {
+    try {
+        const { username, email, password, bio, DOB } = req.body
+        const existingUser = await User.findOne({ email })
+        
+        if (existingUser) {
+            return res.status(400).send({ message: "User already exists" })
         }
-        const user=new User({username, email, password})
+        
+        const user = new User({
+            username, 
+            email, 
+            password,
+            bio,
+            DOB,
+            image: req.file ? req.file.path : ''
+        })
+        
         await user.save()
-        return res.status(200).send({message:"success"})
+        return res.status(200).send({ message: "success" })
     }
-    catch(err){
-        return res.status(400).send({message:err.message})
+    catch(err) {
+        return res.status(400).send({ message: err.message })
     }
 })
 

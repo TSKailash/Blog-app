@@ -1,23 +1,24 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from './Navbar';
 
 const UploadBlog = () => {
   const { username } = useParams();
-  const [email,setemail] = useState();
-  useEffect(()=>{
-    const getemail = async ()=>{
-      try{
+  const [email, setEmail] = useState();
+  
+  useEffect(() => {
+    const getEmail = async () => {
+      try {
         const res = await fetch(`http://localhost:3000/api/getemail/${username}`);
-        const data = await res.json()
-        setemail(data.email);
+        const data = await res.json();
+        setEmail(data.email);
+      } catch (err) {
+        console.log(err);
       }
-      catch(err){
-        console.log(err)
-      }
-    }
-    getemail();
-  },[])
+    };
+    getEmail();
+  }, [username]);
+  
   const [formdata, setFormdata] = useState({
     image: '',
     caption: '',
@@ -97,40 +98,22 @@ const UploadBlog = () => {
     if (fileInput) fileInput.value = '';
   };
 
-  // Color theme
-  const colors = {
-    primary: "#FF5722",    // Vibrant orange
-    secondary: "#9C27B0",  // Purple
-    accent1: "#2196F3",    // Blue
-    accent2: "#4CAF50",    // Green
-    accent3: "#FFC107",    // Amber
-    dark: "#263238",       // Dark blue-grey
-    light: "#FAFAFA"       // Almost white
-  };
-
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-red-100 py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-pink-50 py-12 px-4">
         <div className="max-w-xl mx-auto">
-          {/* Colorful header cards */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="bg-gradient-to-br from-pink-500 to-red-500 rounded-lg p-4 shadow-lg transform rotate-1">
-              <h3 className="text-white font-bold">Create</h3>
-            </div>
-            <div className="bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg p-4 shadow-lg -mt-2">
-              <h3 className="text-white font-bold">Share</h3>
-            </div>
-            <div className="bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg p-4 shadow-lg transform -rotate-1">
-              <h3 className="text-white font-bold">Inspire</h3>
-            </div>
+          {/* Simplified header section */}
+          <div className="mb-6 text-center">
+            <h1 className="text-3xl font-bold text-blue-800 mb-2">Create Your Blog Post</h1>
+            <p className="text-pink-600">Express yourself with words and imagery</p>
           </div>
 
           {/* Main form card */}
-          <div className="bg-white rounded-xl shadow-xl overflow-hidden border-t-4" style={{ borderColor: colors.primary }}>
-            <div className="bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 p-5">
-              <h2 className="text-2xl font-bold text-white">Create Your Blog Post</h2>
-              <p className="text-white opacity-90 text-sm">Express yourself with colors and imagery</p>
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-blue-600">
+            <div className="bg-blue-700 p-5">
+              <h2 className="text-2xl font-bold text-white">New Post</h2>
+              <p className="text-white opacity-90 text-sm">Share your thoughts with the world</p>
             </div>
 
             <form onSubmit={handleSubmit} className="p-6">
@@ -143,8 +126,8 @@ const UploadBlog = () => {
                   
                   {imagePreview ? (
                     <div className="flex items-start space-x-4">
-                      {/* Smaller image preview */}
-                      <div className="relative rounded-lg overflow-hidden border-2 border-pink-200 w-32 h-32 flex-shrink-0">
+                      {/* Image preview */}
+                      <div className="relative rounded-lg overflow-hidden border-2 border-blue-200 w-32 h-32 flex-shrink-0">
                         <img 
                           src={imagePreview} 
                           alt="Preview" 
@@ -153,7 +136,7 @@ const UploadBlog = () => {
                         <button
                           type="button"
                           onClick={handleRemoveImage}
-                          className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 focus:outline-none"
+                          className="absolute top-1 right-1 bg-pink-500 text-white p-1 rounded-full hover:bg-pink-600 focus:outline-none"
                           style={{ width: "18px", height: "18px" }}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-full h-full">
@@ -173,10 +156,10 @@ const UploadBlog = () => {
                         
                         {/* Image tags */}
                         <div className="flex flex-wrap gap-2 mt-2">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
                             Selected
                           </span>
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-pink-100 text-pink-800">
                             Ready to upload
                           </span>
                         </div>
@@ -184,8 +167,7 @@ const UploadBlog = () => {
                     </div>
                   ) : (
                     <div 
-                      className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all duration-300"
-                      style={{ borderColor: colors.secondary, background: "#F3E5F5" }}
+                      className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all duration-300 bg-blue-50 border-blue-300 hover:bg-blue-100"
                     >
                       <input
                         id="imageUpload"
@@ -196,10 +178,10 @@ const UploadBlog = () => {
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
                       <div className="space-y-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-8 w-8" style={{ color: colors.secondary }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <p className="font-medium text-sm" style={{ color: colors.secondary }}>
+                        <p className="font-medium text-sm text-blue-600">
                           Click to upload an image
                         </p>
                       </div>
@@ -212,10 +194,7 @@ const UploadBlog = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Caption
                   </label>
-                  <div 
-                    className="relative rounded-lg overflow-hidden"
-                    style={{ boxShadow: "0 0 0 2px rgba(255, 87, 34, 0.2)" }}
-                  >
+                  <div className="relative rounded-lg overflow-hidden border-2 border-pink-200">
                     <textarea
                       name="caption"
                       placeholder="What's on your mind?"
@@ -223,11 +202,7 @@ const UploadBlog = () => {
                       onChange={handleInputChange}
                       required
                       rows={4}
-                      className="block w-full border-0 p-3 focus:ring-2 focus:ring-offset-2 resize-none"
-                      style={{ 
-                        focusRing: colors.primary,
-                        background: "#FFF9C4"
-                      }}
+                      className="block w-full border-0 p-3 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 resize-none"
                     />
                     <div className="absolute bottom-1 right-2">
                       <span className="text-xs text-gray-500">
@@ -238,19 +213,13 @@ const UploadBlog = () => {
                 </div>
 
                 {/* Author Badge */}
-                <div 
-                  className="p-3 rounded-lg flex items-center space-x-2" 
-                  style={{ background: "#E3F2FD" }}
-                >
-                  <div 
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold"
-                    style={{ background: colors.accent1 }}
-                  >
+                <div className="p-3 rounded-lg flex items-center space-x-2 bg-blue-50">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold bg-blue-600">
                     {username ? username.charAt(0).toUpperCase() : "U"}
                   </div>
                   <div>
                     <p className="text-xs text-gray-600">Posting as</p>
-                    <p className="font-medium text-sm" style={{ color: colors.accent1 }}>
+                    <p className="font-medium text-sm text-blue-700">
                       {username}
                     </p>
                   </div>
@@ -260,10 +229,7 @@ const UploadBlog = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3 px-4 rounded-lg font-bold text-white shadow-lg transform transition hover:-translate-y-0.5 disabled:opacity-50"
-                  style={{ 
-                    background: `linear-gradient(to right, ${colors.primary}, ${colors.secondary})`,
-                  }}
+                  className="w-full py-3 px-4 rounded-lg font-bold text-white shadow-lg transform transition hover:-translate-y-0.5 disabled:opacity-50 bg-pink-500"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
@@ -281,14 +247,11 @@ const UploadBlog = () => {
             </form>
           </div>
           
-          {/* Colorful bottom cards */}
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg p-4 shadow-lg transform -rotate-1">
-              <p className="text-white text-sm font-medium">Let your creativity shine!</p>
-            </div>
-            <div className="bg-gradient-to-br from-lime-500 to-green-600 rounded-lg p-4 shadow-lg transform rotate-1">
-              <p className="text-white text-sm font-medium">Share your story today</p>
-            </div>
+          {/* Footer text */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-blue-700">
+              Your creativity matters. Share your unique perspective with the world.
+            </p>
           </div>
         </div>
       </div>

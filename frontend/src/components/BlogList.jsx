@@ -39,7 +39,7 @@ const BlogList = () => {
     ...post,
     author: post.userName || "User Nlafkame",
     username: post.email || post.author?.toLowerCase().replace(/\s/g, '') || "usernkosame",
-    verified: Math.random() > 0.7,
+    verified: '',
     likes: post.upvote ?? 200,
     comments: 100,
     shares: 1000,

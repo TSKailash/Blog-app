@@ -11,7 +11,13 @@ const RealHome = () => {
     },[])
 
     const [posts,setPosts] = useState([])
+    const [userdetials,setuserdetails] = useState([])
     useEffect(()=>{
+        const fetchdetails = async ()=>{
+          const resdetails = await fetch(`http://localhost:3000/api/getmyinfo/${user}`)
+          const pfpdetails = await resdetails.json();
+
+        }
         const fetchinfo =async()=>{
             const res = await fetch(`http://localhost:3000/api/getprofile/${user}`)
             const pfpdata = await res.json();
@@ -19,6 +25,7 @@ const RealHome = () => {
         }
         if(user){
             fetchinfo();
+            fetchdetails()
         }
     },[user])
     console.log(user);

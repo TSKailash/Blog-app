@@ -7,21 +7,35 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    password: ""
+    password: "",
+    bio: "",
+    DOB: ""
   });
+  const [image, setImage] = useState(null);
   const [error, setError] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); 
+
+    // Create FormData object to handle file uploads
+    const uploadData = new FormData();
+    uploadData.append("image", image);
+    uploadData.append("bio", formData.bio);
+    uploadData.append("username", formData.username);
+    uploadData.append("email", formData.email);
+    uploadData.append("password", formData.password);
+    uploadData.append("DOB", formData.DOB);
+
     try {
       const response = await fetch("http://localhost:3000/signup", {
         method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData)
+        // Don't set Content-Type header when sending FormData
+        // The browser will automatically set the correct Content-Type with boundary
+        body: uploadData
       });
+      
       const result = await response.json();
       
       if (result.message === 'success') {
@@ -31,12 +45,26 @@ const Signup = () => {
       }
     } catch (err) {
       setError("An error occurred. Please check your connection and try again.");
-      console.log(err);
+      console.error(err);
     }
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      
+      // Create image preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -79,7 +107,48 @@ const Signup = () => {
               onChange={handleChange} 
               className='p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-400'
             />
+
+            <label className='text-gray-600 font-medium'>Your Profile Pic</label>
+            <input 
+              type='file' 
+              accept='image/*'
+              required 
+              name='image' 
+              onChange={handleImageChange} 
+              className='p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-400'
+            />
             
+            {imagePreview && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-500 mb-1">Preview:</p>
+                <img 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  className="w-24 h-24 object-cover rounded-md" 
+                />
+              </div>
+            )}
+
+            <label className='text-gray-600 font-medium'>Enter your bio</label>
+            <textarea 
+              name="bio"
+              placeholder='About yourself'
+              required 
+              value={formData.bio}
+              onChange={handleChange} 
+              className='p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-400'
+            />
+
+            <label className='text-gray-600 font-medium'>Enter your DOB</label>
+            <input 
+              type='date' 
+              required 
+              name='DOB' 
+              value={formData.DOB} 
+              onChange={handleChange} 
+              className='p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-400'
+            />
+
             <button 
               type='submit' 
               className='bg-violet-500 text-white py-2 rounded-md hover:bg-violet-600 transition duration-300'
