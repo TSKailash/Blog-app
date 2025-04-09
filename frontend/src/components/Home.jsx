@@ -38,7 +38,7 @@ const Home = () => {
               onClick={()=>{
                 navigate('/bloglist');
               }}>
-                View blogs and explore
+                View blogs and Explore
               </button>
             </div>
             <div className="flex items-center space-x-4">

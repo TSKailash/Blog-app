@@ -5,11 +5,14 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
+
+
+
   useEffect(() => {
     // Get user info from localStorage
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(storedUser);
+      setUser(storedUser)
     }
   }, []);
 
@@ -49,12 +52,12 @@ const Navbar = () => {
 
           {user ? (
             <>
-              <Link 
-                to={`/${user.username}`} 
+              <button 
                 className="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors duration-300 cursor-pointer"
+                onClick={()=>{navigate('/myprofile')}}
               >
                 Profile
-              </Link>
+              </button>
               <button 
                 onClick={handleLogout}
                 className="px-4 py-2 text-red-600 font-medium hover:text-red-800 transition-colors duration-300 cursor-pointer"

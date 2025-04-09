@@ -73,6 +73,36 @@ router.post("/api/updateupvote/:postID", async (req, res)=>{
     }
 })
 
+router.get("/api/getprofile/:user",async (req,res)=>{
+    try{
+        const user = req.params.user
+        const pfpposts = await Post.find({userName:user})
+        if(pfpposts.length===0){
+            return res.status(200).json({message:"NO UPLOADS"})
+        }else {
+            return res.json(pfpposts);
+        }
+    }
+    catch(error){
+        return res.status(400).json({message:"SERVER ERROR"})
+    }
+})
+
+router.delete("/api/deletepost/:postId",async(req,res)=>{
+    try{
+        const deletedpost = await Post.findByIdAndDelete(req.params.postId)
+        if(!deletedpost){
+            return res.status(400).json({message:"POST NOT FOUND"})
+        }
+        else{
+            return res.status(200).json({message:"SUCCESS DELETE"})
+        }
+    }
+    catch(error){
+        res.status(500).json({message:"error occured"})
+    }
+})
+
 router.post("/api/updateLikeName/:postID", async (req, res) => {
     try {
       const { userName } = req.body;
