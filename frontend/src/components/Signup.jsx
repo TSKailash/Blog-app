@@ -1,48 +1,51 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [formData, setformData] = useState({
-      username:"",
-      email:"",
-      password:""
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: ""
   });
-  
-  const handlesubmit = async(e) => {
-      e.preventDefault();
-      try {
-          const responce = await fetch("http://localhost:3000/signup", {
-              method:'POST',
-              headers: {
-                  "Content-Type": "application/json",
-                },
-              body:JSON.stringify(formData)
-          })
-          const result = await responce.json()
-          if(result.message==='success') {
-              navigate('/');
-          } else {
-              console.log(result.message);
-          }
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(""); 
+    try {
+      const response = await fetch("http://localhost:3000/signup", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+      });
+      const result = await response.json();
+      
+      if (result.message === 'success') {
+        navigate('/');
+      } else {
+        setError(result.message || "Signup failed. Please try again.");
       }
-      catch(err) {
-          console.log(err);
-      }
-  }
+    } catch (err) {
+      setError("An error occurred. Please check your connection and try again.");
+      console.log(err);
+    }
+  };
 
   const handleChange = (e) => {
-      setformData({...formData, [e.target.name]: e.target.value})
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Navbar />
       <div className='flex justify-center items-center flex-1'>
-        <form onSubmit={handlesubmit} className='bg-white p-8 shadow-lg rounded-lg w-96'>
+        <form onSubmit={handleSubmit} className='bg-white p-8 shadow-lg rounded-lg w-96'>
           <h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>Sign Up</h2>
+          {error && <p className='text-red-500 text-center mb-4'>{error}</p>}
           <div className='flex flex-col gap-4'>
             <label className='text-gray-600 font-medium'>Enter Username:</label>
             <input 
@@ -87,7 +90,7 @@ const Signup = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

@@ -1,49 +1,87 @@
-import React from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const handleLogin=()=>{
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Get user info from localStorage
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
+  const handleLogin = () => {
     navigate('/login')
   }
-  const handleSignup = ()=>{
+
+  const handleSignup = () => {
     navigate('/signup')
   }
+
+  const handleHome=()=>{
+    if(user){
+      navigate(`/${user}`)
+    }
+    else{
+      navigate('/')
+    }
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate('/');
+  }
+
   return (
     <nav className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <span className="text-3xl font-bold text-indigo-600">Blog<span className="text-pink-500">Verse</span></span>
-          </div>
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">Explore</a>
-            <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">Features</a>
-            <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">About</a>
-            <button 
-              className="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors duration-300 cursor-pointer" 
-              onClick={handleLogin}
-            >
-              Log in
-            </button>
-            <button 
-              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 shadow-lg hover:shadow-indigo-300/50 transition-all duration-300 cursor-pointer"
-              onClick={handleSignup}
-
-            >
-              Sign up
-            </button>
-          </div>
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button className="text-gray-700 hover:text-indigo-600 focus:outline-none">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <span className="text-3xl font-bold text-indigo-600">Blog<span className="text-pink-500">Verse</span></span>
         </div>
-      </nav>
+        <div className="hidden md:flex items-center space-x-4">
+          <a href="#" onClick={handleHome}  className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">Home</a>
+          <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">Features</a>
+          <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">About</a>
+
+          {user ? (
+            <>
+              <Link 
+                to={`/${user.username}`} 
+                className="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors duration-300 cursor-pointer"
+              >
+                Profile
+              </Link>
+              <button 
+                onClick={handleLogout}
+                className="px-4 py-2 text-red-600 font-medium hover:text-red-800 transition-colors duration-300 cursor-pointer"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                className="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors duration-300 cursor-pointer" 
+                onClick={handleLogin}
+              >
+                Log in
+              </button>
+              <button 
+                className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 shadow-lg hover:shadow-indigo-300/50 transition-all duration-300 cursor-pointer"
+                onClick={handleSignup}
+              >
+                Sign up
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
   )
 }
 
-export default Navbar
+export default Navbar;
