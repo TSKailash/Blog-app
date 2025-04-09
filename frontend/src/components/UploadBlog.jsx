@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Navbar from './Navbar'
 
 const UploadBlog = () => {
   // const [caption, setCaption] = useState("");
   // const [image, setImage] = useState(null);
-  const navigate = useNavigate();
+  
   const {username}=useParams()
-  console.log(username)
   const [formdata,setformdata] = useState({
     image:'',
     caption:'',
-    username:username 
+    username:username,
+    email:''
   })
+
+  
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setformdata({
@@ -62,7 +67,10 @@ const UploadBlog = () => {
 
 
   return (
+    <>
+    <Navbar />
     <div className="max-w-lg mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+      
       <h2 className="text-2xl font-bold mb-4">Upload a Blog Image</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input 
@@ -90,6 +98,7 @@ const UploadBlog = () => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 

@@ -28,6 +28,7 @@ const Login = () => {
             const result = await response.json();
             
             if (response.status === 200) {
+                localStorage.setItem("user", result.username)
                 navigate(`/${result.username}`);
             }
             else if(response.status===401){

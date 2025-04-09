@@ -3,11 +3,14 @@ import Navbar from './Navbar';
 import Blog_main from '../assets/Images/blog-main.jpeg'
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import person1 from '../assets/Images/person1.jpeg'
+import person2 from '../assets/Images/person2.jpeg'
+import person3 from '../assets/Images/person3.jpeg'
 
 const Home = () => {
   const navigate = useNavigate();
   const {username}=useParams()
-  
+  console.log(username)
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-200 to-indigo-100">
       {/* Navigation */}
@@ -36,9 +39,9 @@ const Home = () => {
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex -space-x-2">
-                <img src="/api/placeholder/40/40" alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
-                <img src="/api/placeholder/40/40" alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
-                <img src="/api/placeholder/40/40" alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
+                <img src={person1} alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
+                <img src={person2} alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
+                <img src={person3} alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
               </div>
               <p className="text-gray-600">Join <span className="font-semibold text-indigo-600">10,000+</span> writers</p>
             </div>

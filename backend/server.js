@@ -33,14 +33,14 @@ const storage = multer.diskStorage({
   app.post("/api/upload", upload.single("image"), async (req, res) => {
     try {
       const newPost = new Post({
-        image: req.file.path, // ✅ Correct way
+        image: req.file.path, 
         caption: req.body.caption,
         userName: req.body.userName
       });
       await newPost.save();
       res.json(newPost);
     } catch (error) {
-      console.error(error); // 👈 helpful for debugging
+      console.error(error); 
       res.status(500).json({ message: "Error uploading image" });
     }
   });
