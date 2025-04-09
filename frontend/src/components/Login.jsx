@@ -29,6 +29,7 @@ const Login = () => {
             
             if (response.status === 200) {
                 localStorage.setItem("user", result.username)
+                localStorage.setItem("userEmail", result.email);
                 navigate(`/${result.username}`);
             }
             else if(response.status===401){

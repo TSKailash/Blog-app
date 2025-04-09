@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from './Navbar';
 
 const UploadBlog = () => {
   const { username } = useParams();
+  const [email,setemail] = useState();
+  useEffect(()=>{
+    const getemail = async ()=>{
+      try{
+        const res = await fetch(`http://localhost:3000/api/getemail/${username}`);
+        const data = await res.json()
+        setemail(data.email);
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+    getemail();
+  },[])
   const [formdata, setFormdata] = useState({
     image: '',
     caption: '',
     username: username,
-    email: ''
   });
+
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -52,6 +66,7 @@ const UploadBlog = () => {
     uploadData.append("image", formdata.image);
     uploadData.append("caption", formdata.caption);
     uploadData.append("userName", formdata.username);
+    uploadData.append("email", email);
 
     try {
       const response = await fetch("http://localhost:3000/api/upload", {

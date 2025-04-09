@@ -33,8 +33,11 @@ const Home = () => {
               >
                 Get Started
               </button>
-              <button className="px-8 py-3 bg-white text-indigo-600 font-semibold rounded-full border-2 border-indigo-600 hover:bg-indigo-50 transform hover:-translate-y-1 transition-all duration-300">
-                Learn More
+              <button className="px-8 py-3 bg-white text-indigo-600 font-semibold rounded-full border-2 border-indigo-600 hover:bg-indigo-50 transform hover:-translate-y-1 transition-all duration-300"
+              onClick={()=>{
+                navigate('/bloglist');
+              }}>
+                View blogs and explore
               </button>
             </div>
             <div className="flex items-center space-x-4">

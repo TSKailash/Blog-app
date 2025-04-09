@@ -26,7 +26,7 @@ router.post('/login', async(req, res)=>{
             // console.log(password, existingUser.password)
             if(password===existingUser.password){
                 
-                return res.status(200).send({message:"success", username:existingUser.username})
+                return res.status(200).send({message:"success", username:existingUser.username,email:existingUser.email})
             }
             else{
                 return res.status(401).send({message:"Incorrect password"})
@@ -45,5 +45,19 @@ router.get("/api/user/:username", async (req, res) => {
     const user = await User.findOne({ username: req.params.username });
     res.json(user);
   });
+
+router.get("/api/getemail/:username",async(req,res)=>{
+    try{
+        const user = await User.findOne({username:req.params.username});
+        if(user){
+            res.json(user);
+        }else{
+            res.status(400).json({error:"NOt FOUND"});
+        }
+    }catch(err){
+        res.status(500).json({error:err});
+        console.log(err);
+    }
+})
 
 module.exports=router

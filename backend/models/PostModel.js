@@ -5,7 +5,8 @@ const postSchema = new mongoose.Schema({
     caption: String,
     userName: String,
     upvote: Number,
-    email:String
+    email:String,
+    time:String
   });
   
 module.exports = mongoose.model("Post", postSchema);
