@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const Profile = () => {
   const { username } = useParams();
-  const [result, setResult] = useState(null);
+  const [userDetails, setResult] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3000/api/getUser/${username}`)
@@ -16,25 +17,45 @@ const Profile = () => {
       });
   }, [username]);
 
-  if (!result) {
+  if (!userDetails) {
     return <div className="text-center mt-10 text-gray-500">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
-      <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center">
-        <img
-          src={`/${result.profilePic}`}
-          alt="Profile"
-          className="w-32 h-32 mx-auto rounded-full object-cover border-4 border-indigo-500"
-        />
-        <h2 className="text-2xl font-bold mt-4 text-gray-800">{result.username}</h2>
-        <p className="text-gray-600">{result.email}</p>
-        {result.bio && (
-          <p className="mt-4 text-gray-700 italic">"{result.bio}"</p>
-        )}
-      </div>
-    </div>
+    <><div><Navbar/>
+    <div className="bg-white rounded-lg shadow-md p-6 mb-8 max-w-3xl mx-auto">
+                        <div className="flex flex-col sm:flex-row items-center gap-6">
+                            <div className="flex-shrink-0">
+                                {userDetails.image ? (
+                                    <img 
+                                        src={`http://localhost:3000/${userDetails.image}`} 
+                                        alt="Profile" 
+                                        className="w-32 h-32 rounded-full object-cover border-4 border-violet-200"
+                                    />
+                                ) : (
+                                    <div className="w-32 h-32 rounded-full bg-violet-200 flex items-center justify-center">
+                                        <span className="text-3xl font-bold text-violet-500">
+                                            {userDetails.username?.charAt(0).toUpperCase() || "U"}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex-1 text-center sm:text-left">
+                                <h1 className="text-2xl font-bold text-gray-800 mb-2">{userDetails.username}</h1>
+                                <p className="text-gray-600 mb-2">{userDetails.email}</p>
+                                {userDetails.bio && (
+                                    <p className="text-gray-700 mb-3">{userDetails.bio}</p>
+                                )}
+                                {userDetails.DOB && (
+                                    <p className="text-sm text-gray-500">
+                                        <span className="font-medium">DOB:</span> {userDetails.DOB}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+    </div></>
+    
   );
 };
 
