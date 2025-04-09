@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BlogList = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate=useNavigate()
@@ -44,7 +45,7 @@ const BlogList = () => {
     comments: 100,
     shares: 1000,
     views: 2000,
-    time: post.time ?post.time: "2h"
+    time: post.time ? post.time: "2h"
   }));
 
   const handleUpVote = async (postId) => {
@@ -71,6 +72,26 @@ const BlogList = () => {
 
   return (
     <div className="w-full bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 min-h-screen">
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+          onClick={() => setSelectedImage(null)} 
+        >
+          <div className="relative">
+            <img
+              src={selectedImage}
+              alt="Full Size"
+              className="max-w-[90vw] max-h-[90vh] rounded"
+            />
+            <button
+              className="absolute top-2 right-2 bg-white text-black px-2 py-1 rounded-full shadow hover:bg-gray-200"
+              onClick={() => setSelectedImage(null)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex">
         {/* Left Sidebar */}
         <div className="hidden md:flex md:w-1/4 lg:w-1/5 xl:w-1/4 flex-col p-4 sticky top-0 h-screen">
@@ -176,7 +197,9 @@ const BlogList = () => {
               <div key={post._id || index} className="p-4 border-b border-blue-200 hover:bg-blue-50 transition-all duration-200 cursor-pointer">
                 <div className="flex space-x-3">
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center"
+                      onClick={()=>{navigate(`/profiles/${post.author}`)}}
+                    >
                       <span className="font-bold text-white">{post.author.charAt(0)}</span>
                     </div>
                   </div>
@@ -198,6 +221,7 @@ const BlogList = () => {
                         <img 
                           src={`http://localhost:3000/${post.image}`} 
                           alt={post.caption} 
+                          onClick={()=>{setSelectedImage(`http://localhost:3000/${post.image}`)}}
                           className="w-full h-auto object-cover"
                         />
                       </div>
