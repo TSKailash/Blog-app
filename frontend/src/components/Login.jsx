@@ -27,7 +27,7 @@ const Login = () => {
             })
             const result = await response.json();
             if (response.status === 200) {
-                navigate('/');
+                navigate('/home');
             }else if (response.status===404){
                 seterrmessage(result.message);
                 console.log("user not found");
