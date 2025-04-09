@@ -32,10 +32,13 @@ const storage = multer.diskStorage({
 
   app.post("/api/upload", upload.single("image"), async (req, res) => {
     try {
+      const now = new Date();
       const newPost = new Post({
         image: req.file.path, 
         caption: req.body.caption,
-        userName: req.body.userName
+        userName: req.body.userName,
+        email:req.body.email,
+        time:now.toLocaleDateString()
       });
       await newPost.save();
       res.json(newPost);

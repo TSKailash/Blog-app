@@ -46,4 +46,18 @@ router.get("/api/user/:username", async (req, res) => {
     res.json(user);
   });
 
+router.get("/api/getemail/:username",async(req,res)=>{
+    try{
+        const user = await User.findOne({username:req.params.username});
+        if(user){
+            res.json(user);
+        }else{
+            res.status(400).json({error:"NOt FOUND"});
+        }
+    }catch(err){
+        res.status(500).json({error:err});
+        console.log(err);
+    }
+})
+
 module.exports=router
