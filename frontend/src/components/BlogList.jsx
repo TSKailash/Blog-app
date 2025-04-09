@@ -37,7 +37,7 @@ const BlogList = () => {
 
   const enhancedPosts = posts.map(post => ({
     ...post,
-    author: post.userName || "User Nlafkame",
+    author: post.userName || "User Nlafkame", 
     username: post.username || post.author?.toLowerCase().replace(/\s/g, '') || "username",
     verified: Math.random() > 0.7,
     likes: Math.floor(Math.random() * 1000),
