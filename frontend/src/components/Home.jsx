@@ -10,6 +10,7 @@ import person3 from '../assets/Images/person3.jpeg'
 const Home = () => {
   const navigate = useNavigate();
   const {username}=useParams()
+  localStorage.setItem("username", {username})
   console.log(username)
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-200 to-indigo-100">

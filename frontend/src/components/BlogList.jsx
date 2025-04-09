@@ -6,26 +6,6 @@ const BlogList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate=useNavigate()
 
-  const handleUpVote = async (postID)=>{
-    const res=await fetch(`http://localhost:3000/api/updateupvote/${postID}`,{
-      method:"POST"
-    })
-    const data=await res.json()
-    if(data.message==="success"){
-      setPosts(prevPosts=>
-        prevPosts.map(post=>
-          post._id===postID
-          ? {...post, upvote:(post.upvote || 0) + 1}
-          : post
-        )
-      )
-      console.log("Successful")
-    }
-    else{
-      console.log("Failed")
-    }
-  }
-
   useEffect(() => {
     setIsLoading(true);
     fetch("http://localhost:3000/api/posts")
@@ -66,6 +46,28 @@ const BlogList = () => {
     views: 2000,
     time: post.time ?post.time: "2h"
   }));
+
+  const handleUpVote = async (postId) => {
+    console.log(`${postId}`);
+    const res = await fetch(`http://localhost:3000/api/updateupvote/${postId}`,{
+      method:"POST",
+    }
+  )
+    const data = await res.json();
+    if(data.message==='success'){
+      setPosts(prevPosts => 
+        prevPosts.map(post => 
+            post._id === postId 
+                ? {...post, upvote: (post.upvote || 0) + 1}
+                : post
+        )
+    );
+      console.log("Success upvote")
+    }
+    else{
+      console.log("Failed to upvote")
+    }
+};
 
   return (
     <div className="w-full bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 min-h-screen">

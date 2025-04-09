@@ -73,4 +73,21 @@ router.post("/api/updateupvote/:postID", async (req, res)=>{
     }
 })
 
+router.post("/api/updateLikeName/:postID", async (req, res) => {
+    try {
+      const { userName } = req.body;
+  
+      const result = await Post.findOneAndUpdate(
+        { _id: req.params.postID },
+        { $addToSet: { likes: userName } },
+        { new: true }
+      );
+  
+      res.status(200).send({ message: "successfully_added", updatedPost: result });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send({ message: "fail" });
+    }
+});
+
 module.exports=router
