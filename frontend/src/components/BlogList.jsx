@@ -36,6 +36,8 @@ const BlogList = () => {
     );
   }
 
+  const email = localStorage.getItem('email')
+
   const enhancedPosts = posts.map(post => ({
     ...post,
     author: post.userName || "User Nlafkame",
@@ -50,7 +52,7 @@ const BlogList = () => {
 
   const handleUpVote = async (postId) => {
     console.log(`${postId}`);
-    const res = await fetch(`http://localhost:3000/api/updateupvote/${postId}`,{
+    const res = await fetch(`http://localhost:3000/api/updateupvote/${postId}/${email}`,{
       method:"POST",
     }
   )

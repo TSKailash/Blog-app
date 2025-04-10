@@ -7,26 +7,30 @@ const Profile = () => {
   const [userDetails, setResult] = useState(null);
   const [posts, setPosts]=useState([])
 
-  useEffect(async () => {
-    fetch(`http://localhost:3000/api/getUser/${username}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setResult(data.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-      const postsResponse = await fetch(`http://localhost:3000/api/getprofile/${username}`);
-                const postsData = await postsResponse.json();
-                
-                if (!postsResponse.ok) {
-                    console.error("Failed to fetch posts");
-                } else if (postsData.message === "NO UPLOADS") {
-                    setPosts([]);
-                } else {
-                    setPosts(postsData);
-                }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userRes = await fetch(`http://localhost:3000/api/getUser/${username}`);
+        const userData = await userRes.json();
+        setResult(userData.data);
+        const postsResponse = await fetch(`http://localhost:3000/api/getprofile/${username}`);
+        const postsData = await postsResponse.json();
+  
+        if (!postsResponse.ok) {
+          console.error("Failed to fetch posts");
+        } else if (postsData.message === "NO UPLOADS") {
+          setPosts([]);
+        } else {
+          setPosts(postsData);
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+  
+    fetchData(); // Call the async function
   }, [username]);
+  
 
   if (!userDetails) {
     return <div className="text-center mt-10 text-gray-500">Loading...</div>;

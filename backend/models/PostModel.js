@@ -6,7 +6,8 @@
       userName: String,
       upvote: Number,
       email:String,
-      time:String
+      time:String,
+      liked:[String]
     });
     
   module.exports = mongoose.model("Post", postSchema);

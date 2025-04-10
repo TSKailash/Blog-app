@@ -83,12 +83,20 @@ router.get("/api/getemail/:username",async(req,res)=>{
     }
 })
 
-router.post("/api/updateupvote/:postID", async (req, res)=>{
+router.post("/api/updateupvote/:postID/:email", async (req, res)=>{
     try{
-        const result = await Post.findOneAndUpdate({_id:req.params.postID},
-            {$inc:{upvote:1}}
-        )
-        res.status(200).send({message:"success"})
+        const email = req.params.email;
+        const post = await Post.findOne({_id:req.params.postID})
+        if(!post.liked.includes(email)){
+            post.upvote+=1;
+            post.liked.push(email);
+            await post.save();
+           res. status(200).send({message:"success"})
+        }else{
+            res. status(200).send({message:"Already liked"})
+        }
+
+       
     }catch(err){
         console.log(err)
         res.status(400).send({message:"fail"})
