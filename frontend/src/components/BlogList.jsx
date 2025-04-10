@@ -36,7 +36,7 @@ const BlogList = () => {
     );
   }
 
-  const email = localStorage.getItem('email')
+  const email = localStorage.getItem('userEmail')
 
   const enhancedPosts = posts.map(post => ({
     ...post,
@@ -220,13 +220,24 @@ const BlogList = () => {
                     
                     {post.image && (
                       <div className="mt-3 rounded-lg overflow-hidden border border-blue-200 shadow-lg transform transition-all duration-300 hover:scale-[1.01]">
-                        <img 
-                          src={`http://localhost:3000/${post.image}`} 
-                          alt={post.caption} 
-                          onClick={()=>{setSelectedImage(`http://localhost:3000/${post.image}`)}}
+                      {post.image.endsWith(".mp4") ? (
+                        <video
+                          controls
+                          className="w-full h-auto object-cover"
+                          onClick={() => setSelectedImage(`http://localhost:3000/${post.image}`)}
+                        >
+                          <source src={`http://localhost:3000/${post.image}`} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <img
+                          src={`http://localhost:3000/${post.image}`}
+                          alt={post.caption}
+                          onClick={() => setSelectedImage(`http://localhost:3000/${post.image}`)}
                           className="w-full h-auto object-cover"
                         />
-                      </div>
+                      )}
+                    </div>
                     )}
                     
                     <div className="mt-4 flex justify-between max-w-md">
