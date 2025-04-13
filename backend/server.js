@@ -7,6 +7,7 @@ const userRoutes=require('./routes/UserRoutes')
 const multer = require("multer");
 const path = require("path");
 const Post=require("./models/PostModel")
+const cloudinary=require('./utils/cloudinary')
 
 const app=express()
 app.use(express.json())
@@ -33,21 +34,30 @@ const storage = multer.diskStorage({
   app.post("/api/upload", upload.single("image"), async (req, res) => {
     try {
       const now = new Date();
+  
+      // Upload image to Cloudinary and wait for the result
+      const result = await cloudinary.uploader.upload(req.file.path);
+      console.log(result)
+  
+      // Create new Post object
       const newPost = new Post({
-        image: req.file.path, 
+        image: result.url, //url generated in a json format
         caption: req.body.caption,
         userName: req.body.userName,
-        email:req.body.email,
-        time:now.toLocaleDateString(),
-        upvote:req.body.upvote
+        email: req.body.email,
+        time: now.toLocaleDateString(),
+        upvote: req.body.upvote || 0,
       });
+  
       await newPost.save();
       res.json(newPost);
+  
     } catch (error) {
-      console.error(error); 
+      console.error(error);
       res.status(500).json({ message: "Error uploading image" });
     }
   });
+  
   
   
   // Fetch Posts
