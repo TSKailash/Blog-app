@@ -9,7 +9,6 @@ const Navbar = () => {
 
 
   useEffect(() => {
-    // Get user info from localStorage
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(storedUser)
