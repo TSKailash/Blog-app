@@ -43,7 +43,7 @@ const Profile = () => {
                             <div className="flex-shrink-0">
                                 {userDetails.image ? (
                                     <img 
-                                        src={`http://localhost:3000/${userDetails.image}`} 
+                                    src={`${userDetails.image}`}
                                         alt="Profile" 
                                         className="w-32 h-32 rounded-full object-cover border-4 border-violet-200"
                                     />
@@ -85,7 +85,7 @@ const Profile = () => {
                                     className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all hover:shadow-lg"
                                 >
                                     <img
-                                        src={`http://localhost:3000/${post.image}`}
+                                        src={`${post.image}`}
                                         alt={post.caption}
                                         className="w-full h-48 sm:h-56 object-cover"
                                     />
