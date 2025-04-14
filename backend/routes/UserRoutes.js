@@ -18,7 +18,7 @@ const uploadProfile = multer({ storage: profileStorage })
 
 router.post('/signup', uploadProfile.single('image'), async(req, res) => {
     try {
-        const { username, email, password, bio, DOB } = req.body
+        const { username, email, password, bio, DOB  } = req.body
         const existingUser = await User.findOne({ email })
         
         if (existingUser) {
