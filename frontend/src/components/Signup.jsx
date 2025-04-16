@@ -19,7 +19,6 @@ const Signup = () => {
     e.preventDefault();
     setError(""); 
 
-    // Create FormData object to handle file uploads
     const uploadData = new FormData();
     uploadData.append("image", image);
     uploadData.append("bio", formData.bio);
@@ -31,8 +30,6 @@ const Signup = () => {
     try {
       const response = await fetch("http://localhost:3000/signup", {
         method: 'POST',
-        // Don't set Content-Type header when sending FormData
-        // The browser will automatically set the correct Content-Type with boundary
         body: uploadData
       });
       

@@ -64,6 +64,8 @@ router.post('/login', async(req, res)=>{
         return res.status(500).send({message:err.message})
     }
 })
+
+
 router.get("/api/user/:username", async (req, res) => {
     const user = await User.findOne({ username: req.params.username });
     res.json(user);
