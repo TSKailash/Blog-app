@@ -68,6 +68,8 @@ router.post('/login', async(req, res)=>{
         return res.status(500).send({message:err.message})
     }
 })
+
+
 router.get("/api/user/:username", async (req, res) => {
     const user = await User.findOne({ username: req.params.username });
     res.json(user);
@@ -167,5 +169,40 @@ router.get("/api/getUser/:username", async (req, res) => {
     }
 });
 
+router.post("/api/updatecomment/:postId/:email",async(req,res)=>{
+    try{
+        const post = await Post.findOne({_id:req.params.postId})
+        const user = await User.findOne({email:req.params.email})
+        const username = user.username
+        const comment = req.body.text
+
+        const newcomment=
+            {
+                user:username,
+                text:comment
+            }
+
+        post.comments.push(newcomment)
+        await post.save();
+
+        res.status(200).json({ message: "Comment added"})
+    }catch(err){
+        res.status(500).json({ message: "Server error", error: err.message });
+    }
+})
+
+router.get("/api/getusername/:email",async(req,res)=>{
+    try{
+        const user = await User.findOne({email:req.params.email})
+
+        if(user){
+            res.status(200).json({message:'success', data:user})
+        }else{
+            res.status(400).json({message:'User not found',})
+        }
+    }catch(err){
+        res.status(500).json({message:"Server error"})
+    }
+})
 
 module.exports=router
