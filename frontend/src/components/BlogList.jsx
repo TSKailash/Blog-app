@@ -214,7 +214,11 @@ const BlogList = () => {
                         <div>
                           <p className="font-bold text-sm">{comment.user || 'User'}</p>
                           <p className="text-xs text-blue-500">
-                            {comment.time || 'Just now'}
+                          {comment.createdAt ? new Date(comment.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'  
+                              }) : 'Just now'}
                           </p>
                         </div>
                       </div>
