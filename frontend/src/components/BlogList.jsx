@@ -410,20 +410,22 @@ const BlogList = () => {
                         <span>{post.shares}</span>
                       </button>
                       
-                      <button 
-                        className="flex items-center space-x-1 text-blue-500 hover:text-pink-500 group transition-all duration-200"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleUpVote(post._id);
-                        }}
-                      >
-                        <div className="p-2 rounded-full group-hover:bg-blue-100 transition-all duration-200">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                          </svg>
-                        </div>
-                        <span>{post.likes}</span>
-                      </button>
+                        <button 
+                          className="flex items-center space-x-1 text-blue-500 hover:text-pink-500 group transition-all duration-200"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleUpVote(post._id);
+                          }}
+                        >
+                          <div className="p-2 rounded-full group-hover:bg-blue-100 transition-all duration-200">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                          </div>
+                          <span>{post.likes}</span>
+                        </button>
+
+
                       
                       <button className="flex items-center space-x-1 text-blue-500 hover:text-indigo-500 group transition-all duration-200">
                         <div className="p-2 rounded-full group-hover:bg-blue-100 transition-all duration-200">
