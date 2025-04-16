@@ -224,16 +224,16 @@ const BlogList = () => {
                         <video
                           controls
                           className="w-full h-auto object-cover"
-                          onClick={() => setSelectedImage(`http://localhost:3000/${post.image}`)}
+                          onClick={() => setSelectedImage(`${post.image}`)}
                         >
-                          <source src={`http://localhost:3000/${post.image}`} type="video/mp4" />
+                          <source src={`${post.image}`} type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
                       ) : (
                         <img
-                          src={`http://localhost:3000/${post.image}`}
+                          src={`${post.image}`}
                           alt={post.caption}
-                          onClick={() => setSelectedImage(`http://localhost:3000/${post.image}`)}
+                          onClick={() => setSelectedImage(`${post.image}`)}
                           className="w-full h-auto object-cover"
                         />
                       )}

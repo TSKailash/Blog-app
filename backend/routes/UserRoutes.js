@@ -4,6 +4,7 @@ const User=require('../models/UserModel')
 const Post=require('../models/PostModel')
 const multer = require('multer')
 const path = require('path')
+const cloudinary = require('cloudinary')
 
 const profileStorage = multer.diskStorage({
     destination: "./uploads/profiles/",
@@ -17,12 +18,15 @@ const uploadProfile = multer({ storage: profileStorage })
 
 router.post('/signup', uploadProfile.single('image'), async(req, res) => {
     try {
-        const { username, email, password, bio, DOB } = req.body
+        const { username, email, password, bio, DOB  } = req.body
         const existingUser = await User.findOne({ email })
         
         if (existingUser) {
             return res.status(400).send({ message: "User already exists" })
         }
+
+        const result = await cloudinary.uploader.upload(req.file.path);
+        console.log()
         
         const user = new User({
             username, 
@@ -30,7 +34,7 @@ router.post('/signup', uploadProfile.single('image'), async(req, res) => {
             password,
             bio,
             DOB,
-            image: req.file ? req.file.path : ''
+            image: result.url
         })
         
         await user.save()

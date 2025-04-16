@@ -44,7 +44,6 @@ const UploadBlog = () => {
         [e.target.name]: file
       });
       
-      // Create image preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -103,13 +102,11 @@ const UploadBlog = () => {
       <Navbar />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-pink-50 py-12 px-4">
         <div className="max-w-xl mx-auto">
-          {/* Simplified header section */}
           <div className="mb-6 text-center">
             <h1 className="text-3xl font-bold text-blue-800 mb-2">Create Your Blog Post</h1>
             <p className="text-pink-600">Express yourself with words and imagery</p>
           </div>
 
-          {/* Main form card */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-blue-600">
             <div className="bg-blue-700 p-5">
               <h2 className="text-2xl font-bold text-white">New Post</h2>
@@ -118,7 +115,6 @@ const UploadBlog = () => {
 
             <form onSubmit={handleSubmit} className="p-6">
               <div className="space-y-5">
-                {/* Image Upload Area */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Featured Image
@@ -126,7 +122,6 @@ const UploadBlog = () => {
                   
                   {imagePreview ? (
                     <div className="flex items-start space-x-4">
-                      {/* Image preview */}
                       <div className="relative rounded-lg overflow-hidden border-2 border-blue-200 w-32 h-32 flex-shrink-0">
                         <img 
                           src={imagePreview} 
@@ -145,7 +140,6 @@ const UploadBlog = () => {
                         </button>
                       </div>
                       
-                      {/* Image info */}
                       <div className="flex-grow">
                         <p className="text-sm font-medium text-gray-900 truncate">
                           {formdata.image.name || "Image selected"}
@@ -154,7 +148,6 @@ const UploadBlog = () => {
                           Click the X to remove and upload a different image
                         </p>
                         
-                        {/* Image tags */}
                         <div className="flex flex-wrap gap-2 mt-2">
                           <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
                             Selected
@@ -189,7 +182,6 @@ const UploadBlog = () => {
                   )}
                 </div>
 
-                {/* Caption Input */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Caption
@@ -211,8 +203,6 @@ const UploadBlog = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Author Badge */}
                 <div className="p-3 rounded-lg flex items-center space-x-2 bg-blue-50">
                   <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold bg-blue-600">
                     {username ? username.charAt(0).toUpperCase() : "U"}
@@ -225,7 +215,6 @@ const UploadBlog = () => {
                   </div>
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -247,7 +236,6 @@ const UploadBlog = () => {
             </form>
           </div>
           
-          {/* Footer text */}
           <div className="mt-6 text-center">
             <p className="text-sm text-blue-700">
               Your creativity matters. Share your unique perspective with the world.
