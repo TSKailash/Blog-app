@@ -7,4 +7,13 @@ cloudinary.config({
     api_secret: '0MrAE_Q1R3wAB8r30O-nZGn04pA' 
 })
 
-module.exports=cloudinary
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: "your_folder_name", // Optional: e.g., "posts"
+      allowed_formats: ["jpg", "png", "jpeg"],
+      public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+    },
+  });
+  
+  module.exports = { cloudinary, storage };

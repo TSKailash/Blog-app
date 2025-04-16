@@ -5,9 +5,9 @@ const User=require('./models/UserModel')
 require('dotenv').config();
 const userRoutes=require('./routes/UserRoutes')
 const multer = require("multer");
-const path = require("path");
+const { storage } = require("./utils/cloudinary");
 const Post=require("./models/PostModel")
-const cloudinary=require('./utils/cloudinary')
+const {cloudinary}=require('./utils/cloudinary')
 
 const app=express()
 app.use(express.json())
@@ -21,25 +21,22 @@ app.get("/",(req,res)=>{
     res.send("HEllo");
 })
 
-const storage = multer.diskStorage({
-    destination: "./uploads/",
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname)); 
-    },
-  });
+// const storage = multer.diskStorage({
+//     destination: "./uploads/",
+//     filename: (req, file, cb) => {
+//       cb(null, Date.now() + path.extname(file.originalname)); 
+//     },
+//   });
   const upload = multer({ storage });
 
-  app.use("/uploads", express.static("uploads"));
+  // app.use("/uploads", express.static("uploads"));
 
   app.post("/api/upload", upload.single("image"), async (req, res) => {
     try {
       const now = new Date();
-      const result = await cloudinary.uploader.upload(req.file.path);
-      console.log(result)
   
-      // Create new Post object
       const newPost = new Post({
-        image: result.url, //url generated in a json format
+        image: req.file.path, // Now this is the Cloudinary URL
         caption: req.body.caption,
         userName: req.body.userName,
         email: req.body.email,
@@ -49,20 +46,16 @@ const storage = multer.diskStorage({
   
       await newPost.save();
       res.json(newPost);
-  
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error uploading image" });
     }
   });
   
-  
-  
-  // Fetch Posts
-  app.get("/api/posts", async (req, res) => {
-    const posts = await Post.find();
-    res.json(posts);
-  });
+  app.get('/api/posts', async (req, res)=>{
+    const posts=await Post.find();
+    res.json(posts)
+  })
 
 app.use('/', userRoutes)
 
