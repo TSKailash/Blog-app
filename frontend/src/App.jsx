@@ -8,6 +8,7 @@ import UploadBlog from './components/UploadBlog'
 import BlogList from './components/BlogList'
 import RealHome from './components/RealHome'
 import Profile from './components/Profile'
+import NotFound from './components/NotFound'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
       <Route path='/bloglist' element={<BlogList/>}/>
       <Route path='/myprofile' element={<RealHome/>}/>
       <Route path='/profiles/:username' element={<Profile/>}/>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
